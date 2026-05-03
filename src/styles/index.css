@@ -97,17 +97,17 @@
 
 /* ── Light Theme ────────────────────────────────────────── */
 [data-theme='light'] {
-  --color-bg:              #F4F6F8;
+  --color-bg:              #F8FAFC;
   --color-surface:         #FFFFFF;
   --color-surface-raised:  #FFFFFF;
-  --color-surface-subtle:  #F0F2F5;
+  --color-surface-subtle:  #F1F5F9;
 
-  --color-border:          #E0E4EC;
-  --color-border-subtle:   #EEF0F4;
+  --color-border:          #E2E8F0;
+  --color-border-subtle:   #F1F5F9;
 
-  --color-text-primary:    #111827;
-  --color-text-secondary:  #546E7A;
-  --color-text-muted:      #9EB3BF;
+  --color-text-primary:    #0F172A;
+  --color-text-secondary:  #334155;
+  --color-text-muted:      #64748B;
   --color-text-inverse:    #FFFFFF;
 
   --shadow-xs:  0 1px 3px rgba(0,0,0,.06);
@@ -116,13 +116,13 @@
   --shadow-lg:  0 8px 40px rgba(0,0,0,.14);
 
   --color-input-bg:        #FFFFFF;
-  --color-input-border:    #D1D9E0;
+  --color-input-border:    #CBD5E1;
   --color-input-focus:     #2563EB;
-  --color-placeholder:     #9EB3BF;
+  --color-placeholder:     #94A3B8;
 
   --color-sidebar-bg:      #2563EB;
-  --color-sidebar-text:    rgba(255,255,255,.80);
-  --color-sidebar-border:  rgba(255,255,255,.10);
+  --color-sidebar-text:    rgba(255,255,255,.90);
+  --color-sidebar-border:  rgba(255,255,255,.15);
 }
 
 /* ── Reset / Base ───────────────────────────────────────── */
@@ -135,6 +135,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -145,6 +147,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--transition-normal), color var(--transition-normal);
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {

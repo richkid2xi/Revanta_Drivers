@@ -6,7 +6,7 @@ import './SignUp.css';
 const steps = [
   { id: 1, label: 'Corporation' },
   { id: 2, label: 'Fleet' },
-  { id: 3, label: 'Subscription' },
+  { id: 3, label: 'Plan' },
   { id: 4, label: 'Admin' },
   { id: 5, label: 'Payment' },
 ];
@@ -22,7 +22,13 @@ const VEHICLE_TYPES = [
 ];
 
 const JOB_TITLES = [
-  'Operations Manager', 'Fleet Manager', 'Corporation Admin', 'Owner', 'IT Manager', 'Other'
+  'Operations Manager', 'Corporation Admin', 'Owner', 'IT Manager', 'Other'
+];
+
+const PRICING_TIERS = [
+  { id: 'starter', label: 'Starter', range: '1-50 Cars', price: 500, max: 50 },
+  { id: 'pro', label: 'Pro', range: '51-100 Cars', price: 900, max: 100 },
+  { id: 'enterprise', label: 'Enterprise', range: '101+ Cars', price: 1500, max: 1000 }
 ];
 
 export default function SignUp() {
@@ -38,7 +44,7 @@ export default function SignUp() {
     email: '',
     driverCount: 1,
     vehicleTypes: [],
-    plan: 'premium',
+    plan: 'starter',
     fullName: '',
     jobTitle: '',
     adminPhone: '',
@@ -49,10 +55,16 @@ export default function SignUp() {
 
   const [passwordStrength, setPasswordStrength] = useState(0);
 
-  const calculateTotal = useMemo(() => {
-    const rate = formData.plan === 'premium' ? 20 : 10;
-    return formData.driverCount * rate;
-  }, [formData.driverCount, formData.plan]);
+  const selectedTier = useMemo(() => {
+    return PRICING_TIERS.find(t => t.id === formData.plan) || PRICING_TIERS[0];
+  }, [formData.plan]);
+
+  useEffect(() => {
+    // Auto-update plan based on driver count
+    if (formData.driverCount <= 50) updateFormData('plan', 'starter');
+    else if (formData.driverCount <= 100) updateFormData('plan', 'pro');
+    else updateFormData('plan', 'enterprise');
+  }, [formData.driverCount]);
 
   const handleNext = (e) => {
     if (e) e.preventDefault();
@@ -108,8 +120,8 @@ export default function SignUp() {
               <span className="summary-value mono">{formData.driverCount} Drivers</span>
             </div>
             <div className="summary-item">
-              <span className="summary-label">Active Plan</span>
-              <span className="summary-value mono">{formData.plan.toUpperCase()}</span>
+              <span className="summary-label">Selected Tier</span>
+              <span className="summary-value mono">{selectedTier.label} ({selectedTier.range})</span>
             </div>
             <div className="summary-item">
               <span className="summary-label">Trial Period</span>
@@ -192,7 +204,7 @@ export default function SignUp() {
             <form onSubmit={handleNext} className="auth-form">
               <h2 className="step-title">Fleet Information</h2>
               <div className="form-group">
-                <label>Driver count</label>
+                <label>Vehicle count (Total Fleet Size)</label>
                 <div className="stepper-input">
                   <button type="button" onClick={() => updateFormData('driverCount', Math.max(1, formData.driverCount - 1))}>
                     <span className="material-icons-round">remove</span>
@@ -202,6 +214,7 @@ export default function SignUp() {
                     <span className="material-icons-round">add</span>
                   </button>
                 </div>
+                <p className="form-hint">Current Tier: <strong>{selectedTier.label}</strong> ({selectedTier.range})</p>
               </div>
               <div className="form-group">
                 <label>Vehicle types</label>
@@ -226,41 +239,36 @@ export default function SignUp() {
 
           {currentStep === 3 && (
             <form onSubmit={handleNext} className="auth-form">
-              <h2 className="step-title">Subscription Plan</h2>
-              <div className="plan-selection">
-                <div 
-                  className={`plan-option-card ${formData.plan === 'basic' ? 'active' : ''}`}
-                  onClick={() => updateFormData('plan', 'basic')}
-                >
-                  <div className="plan-info">
-                    <h3>Basic</h3>
-                    <p>Standard driver feedback</p>
+              <h2 className="step-title">Subscription Tier</h2>
+              <div className="plan-selection tiered">
+                {PRICING_TIERS.map(tier => (
+                  <div 
+                    key={tier.id}
+                    className={`plan-option-card ${formData.plan === tier.id ? 'active' : ''} ${tier.id === 'pro' ? 'premium' : ''}`}
+                    onClick={() => {
+                      updateFormData('plan', tier.id);
+                      // Adjust count if it's below the tier's logic? 
+                      // Actually, better to just let the tier be selected based on count, 
+                      // but if they click a tier here, maybe we should adjust the count?
+                      // No, let's keep it informative.
+                    }}
+                  >
+                    {tier.id === 'pro' && <div className="most-popular">Recommended</div>}
+                    <div className="plan-info">
+                      <h3>{tier.label}</h3>
+                      <p>{tier.range}</p>
+                    </div>
+                    <div className="plan-cost">
+                      <span className="mono">GH₵{tier.price}</span>
+                      <span className="unit">/month</span>
+                    </div>
                   </div>
-                  <div className="plan-cost">
-                    <span className="mono">GH₵10</span>
-                    <span className="unit">/driver</span>
-                  </div>
-                </div>
-
-                <div 
-                  className={`plan-option-card premium ${formData.plan === 'premium' ? 'active' : ''}`}
-                  onClick={() => updateFormData('plan', 'premium')}
-                >
-                  <div className="most-popular">Most Popular</div>
-                  <div className="plan-info">
-                    <h3>Premium</h3>
-                    <p>Advanced metrics & alerts</p>
-                  </div>
-                  <div className="plan-cost">
-                    <span className="mono">GH₵20</span>
-                    <span className="unit">/driver</span>
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className="total-calculation-box">
-                <span className="calc-label">Total Monthly</span>
-                <span className="calc-total mono">GH₵{calculateTotal}</span>
+                <span className="calc-label">Total Monthly Subscription</span>
+                <span className="calc-total mono">GH₵{selectedTier.price}</span>
               </div>
 
               <div className="wizard-actions">
@@ -319,11 +327,11 @@ export default function SignUp() {
 
           {currentStep === 5 && (
             <form onSubmit={handleNext} className="auth-form">
-              <h2 className="step-title">Payment</h2>
+              <h2 className="step-title">Payment Activation</h2>
               <div className="order-summary">
                 <div className="order-item">
-                  <span>{formData.plan.toUpperCase()} Plan</span>
-                  <span className="mono">GH₵{calculateTotal}</span>
+                  <span>{selectedTier.label} Plan ({selectedTier.range})</span>
+                  <span className="mono">GH₵{selectedTier.price}</span>
                 </div>
                 <div className="trial-note">14-day free trial applies. No charges today.</div>
               </div>
@@ -333,17 +341,17 @@ export default function SignUp() {
               </div>
 
               <div className="form-group">
-                <label>Mobile number</label>
+                <label>Mobile Money number</label>
                 <input type="tel" placeholder="0XX XXX XXXX" value={formData.paymentNumber} onChange={e => updateFormData('paymentNumber', e.target.value)} required />
               </div>
 
               <div className="grand-total-box">
                 <span className="label">Grand Total</span>
-                <span className="total mono">GH₵{calculateTotal}</span>
+                <span className="total mono">GH₵{selectedTier.price}</span>
               </div>
 
               <button type="submit" className="btn-primary pay-button">
-                Pay and Activate
+                Activate Subscription
               </button>
 
               <div className="wizard-actions" style={{ marginTop: '16px' }}>
