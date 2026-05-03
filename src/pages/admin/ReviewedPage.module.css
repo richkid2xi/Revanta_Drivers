@@ -1,0 +1,283 @@
+/* ReviewedPage.module.css */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageTitle {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.filterBtn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+.filterBtn:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+}
+.filterBtnIcon {
+  font-size: 16px;
+}
+
+.exportBtn {
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-primary-light);
+  color: var(--color-primary-lighter);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+.exportBtn:hover {
+  background: var(--color-primary-light);
+  color: #fff;
+}
+
+.controlsRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dateFilterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.dateInput {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+.dateInput:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 18px;
+}
+
+.searchInput {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(46, 125, 50, 0.4);
+  border-radius: var(--radius-md);
+  padding: 12px 14px 12px 40px;
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast);
+}
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* Review Card Styles */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.refId {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star {
+  color: #F9A825;
+  font-size: 16px;
+}
+.starEmpty {
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.badgeReviewed {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--color-primary);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+.badgeAnonymous {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.comment {
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  margin: 4px 0 0 0;
+}
+
+.authorContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.authorIcon {
+  font-size: 16px;
+  color: var(--color-primary-lighter);
+}
+
+.authorName {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+  .page {
+    gap: 16px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .cardMeta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
